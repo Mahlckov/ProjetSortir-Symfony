@@ -1,0 +1,24 @@
+{{ form_start(form) }}
+
+<div class="row d-none d-sm-flex flex-row">
+    <div class="formFilter_left_div col-sm-6">
+        {{ form_row(form.campus,{ 'label_attr': {'class': 'form-filter-label'} }) }}
+        {{ form_row(form.q,{ 'label_attr': {'class': 'form-filter-label'} }) }}
+        <div class="formFilter_date">
+            <p class="dateWord">Entre </p>
+            {{ form_row(form.dateMin,{ 'attr': {'class': 'dateMin'} }) }}
+            <p class="dateWord" style="padding-left: 15px;">et</p>
+            {{ form_row(form.dateMax) }}
+        </div>
+    </div>
+    <div class="col-sm-6">
+        {{ form_row(form.organisateur, { 'label_attr': {'class': 'form-filter-input'} }) }}
+        {{ form_row(form.inscrit, { 'label_attr': {'class': 'form-filter-input'} }) }}
+        {{ form_row(form.nonInscrit, { 'label_attr': {'class': 'form-filter-input'} }) }}
+        {{ form_row(form.sortiesTerminees, { 'label_attr': {'class': 'form-filter-input'} }) }}
+
+    </div>
+</div>
+
+<button type="submit" class="d-none d-sm-inline btn btn-success">Rechercher</button>
+{{ form_end(form) }}

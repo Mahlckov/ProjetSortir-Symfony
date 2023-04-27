@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+{% form_theme ProfileForm 'bootstrap_5_layout.html.twig' %}
+
+{% block body %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card card-body bg-light mx-auto" style="max-width: 600px;">
+            <div class="d-flex justify-content-center flex-wrap align-items-center flex-column">
+            <h1 class="text-center">Profil de {{ participant.pseudo }}</h1>
+                    {% if participant.nomImage %}
+                        <img src="{{ asset('uploads/images/' ~ participant.nomImage) }}" alt="Image de | {{ participant.nom}}" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                    {% else %}
+                        <img src="{{ asset('images/NicePng_watsapp-icon-png_9332131.png') }}" alt="Default profile photo" style="max-width: 200px; max-height: 200px; object-fit: cover;">
+                    {% endif %}
+
+            {% if participant == app.user %}
+                <div class="mx-auto form-group text-center" >
+                    {{ form_start(ProfileForm, {'attr': {'class': 'mx-auto'}}) }}
+                    {{ form_row(ProfileForm.pseudo) }}
+                    {{ form_row(ProfileForm.prenom) }}
+                    {{ form_row(ProfileForm.nom) }}
+                    {{ form_row(ProfileForm.telephone) }}
+                    {{ form_row(ProfileForm.email) }}
+                    {{ form_row(ProfileForm.campus) }}
+                    {{ form_row(ProfileForm.nomImage) }}
+                    {{ form_row(ProfileForm.plainPassword) }}
+                    <button class="btn btn-lg btn-success " type="submit">Enregistrer</button>
+                    {{ form_end(ProfileForm) }}
+                    <a href="{{ path('main_home') }}">
+                        <button class="btn btn-lg btn-warning" type="submit">Annuler</button>
+                    </a>
+                </div>
+        </div>
+    </div>
+
+    {% else %}
+
+        <p>Pseudo: {{ participant.pseudo }}</p>
+        <p>Email: {{ participant.email }}</p>
+        <p>Téléphone: {{ participant.telephone }}</p>
+
+        {% if is_granted("ROLE_ADMIN") %}
+            <p>Etat du compte : {{ participant.actif ? 'Actif' : 'Désactivé' }}</p>
+            <a href="{{ path('admin_suppression', {'id': participant.id}) }}">
+                <button class="btn btn-lg btn-danger" type="submit"
+                        onclick="confirmer(this.href, 'supprimer')">
+                    Supprimer ce compte
+                </button>
+            </a>
+            {% if participant.actif %}
+                <a href="{{ path('admin_desactivation', {'id': participant.id}) }}"
+                   onclick="confirmer(this.href, 'suspendre'); return false;">
+                    <button class="btn btn-lg btn-warning" type="submit">Suspendre ce compte</button>
+                </a>
+            {% else %}
+                <a href="{{ path('admin_reactivation', {'id': participant.id}) }}">
+                    <button class="btn btn-lg btn-primary" type="submit">Réactiver ce compte</button>
+                </a>
+            {% endif %}
+        {% endif %}
+
+    {% endif %}
+</div>
+{% if participant == app.user %}
+    <div class="col-lg-6">
+        <div class="card card-body bg-light mx-auto" style="max-width: 600px;">
+            <div class="d-flex justify-content-center flex-wrap align-items-stretch flex-column text-center">
+            <h1>Modifier votre mot de passe</h1>
+                {{ form_start(MdpForm, {'attr': {'class': 'mx-auto'}}) }}
+                {{ form_row(MdpForm.currentPassword) }}
+                {{ form_row(MdpForm.newPassword) }}
+                <button class="btn btn-lg btn-success " type="submit">Enregistrer</button>
+                {{ form_end(MdpForm) }}
+            </div>
+        </div>
+    </div>
+{% endif %}
+</div>
+
+
+    <script src="{{ asset('js/ConfirmerAction.js') }}"></script>
+{% endblock %}
+
+{% block title %}
+    Profil | {{ parent() }}
+{% endblock %}
+

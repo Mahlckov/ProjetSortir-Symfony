@@ -1,0 +1,211 @@
+
+body {
+    font-family: 'Crimson Text', serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: whitesmoke;
+}
+
+.container {
+    max-width: 90%;
+    margin: auto;
+}
+
+main {
+    flex: 1;
+    padding: 1rem 0;
+    background-color: #f2f2f2;
+}
+
+footer {
+    padding: 2rem 0;
+    text-align: center;
+    background-color: #737373;
+    color: whitesmoke;
+}
+
+.center {
+    text-align: center!important;
+}
+
+input, textarea, select {
+    width: 200px!important;
+}
+
+textarea {
+    height: 150px;
+}
+
+#colFormNew div {
+    justify-content: space-between;
+    display: flex;
+    padding-bottom: 20px;
+}
+
+#colFormNew div:first-child {
+    padding-top: 20px;
+}
+
+#btnNewSortie {
+    text-align: center;
+    padding: 10px;
+}
+
+/**LISTE SORTIE **/
+th, td {
+
+    width:30rem;
+
+}
+
+/** FORM FILTER **/
+
+.formFilter_container{
+
+    display: flex;
+    width:90%;
+
+}
+.formFilter_left_div{
+    width:35rem;
+
+}
+
+.formFilter_date{
+
+    display:flex;
+    width:60rem;
+}
+
+.form-filter-input{width: 20em;}
+
+.form-filter-label{width: 15em;}
+
+.formFilterInline{
+display:inline-block;
+
+}
+
+.dateWord{
+    width:3rem;
+
+}
+
+
+.dateMin {
+
+    width:5px;
+
+}
+
+/**FIN CSS FILTRE + AFFICHAGE SORTI */
+
+.flash{
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 5px auto;
+    border-radius: 5px;
+    width: 50%;
+    display: block;
+    align-items: center;
+    text-align: center;
+}
+
+.flash-success{
+    background-color: darkslategray;
+    color: #DDDDDD;
+    text-align: center;
+}
+
+.flash-disabled_user_error, .flash-authentication_error {
+    background-color: darkred;
+    color: #DDDDDD;
+}
+.flash-authentication_error {
+    background-color: #f8d7da;
+    color: #521e1e;
+}
+
+/* formulaires */
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}
+label {
+    display: block;
+    flex-direction: row;
+
+}
+input, textarea {
+    box-sizing: border-box;
+    width: 50%;
+    margin-bottom: 1rem;
+}
+button {
+    padding: 0.5rem 0.7rem;
+    font-family: inherit;
+}
+
+
+.container-login {
+    display: block;
+}
+
+td > a {
+    text-decoration: none;
+    color: black;
+}
+
+td > a:hover{
+    color: darkgray;
+}
+
+input[type="checkbox"] {
+    width: 15px!important;
+}
+
+.table-height{
+    height: 400px;
+}
+
+.table-list-participant{
+    height: 250px;
+    width: 320px;
+}
+.navFlo{
+    position:absolute;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    left:70%;
+
+}
+
+.navFlo li ul {display:none;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+
+
+}
+
+
+.navFlo li:hover ul {
+    display: inline-block;
+    z-index: 1;
+    position:absolute;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(33,37,41);
+}
+

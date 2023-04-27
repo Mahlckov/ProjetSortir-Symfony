@@ -1,0 +1,96 @@
+<div class="table-responsive table-height">
+    <table class="table table-striped">
+        <tr>
+            <th>Nom de la sortie</th>
+
+            <th>Date de la sortie</th>
+
+            <th class="d-none d-sm-table-cell">Clôture</th>
+
+            <th class="d-none d-sm-table-cell">inscrits/places</th>
+
+            <th class="d-none d-sm-table-cell">Etat</th>
+
+            <th class="d-none d-sm-table-cell">Inscrit</th>
+
+            <th class="d-none d-sm-table-cell">Organisateur</th>
+
+            <th class="d-none d-sm-table-cell">Actions</th>
+
+            <th class="d-sm-none">Lieu</th>
+        </tr>
+
+        {% for s in sorties %}
+            {# la sortie ne doit pas etre archivée #}
+            {% if s.etat.id != 7 %}
+                <tr>
+                    <td>
+                        <a class="d-sm-none" href="{{ path('nouvelle_sortie', {'id': s.id}) }}">{{ s.nom }}</a>
+                        <span class="d-none d-sm-table-cell">{{ s.nom }}</span>
+                    </td>
+
+                    <td>{{ s.dateHeureDebut | date("d/m/y H:i") }}</td>
+
+                    <td class="d-none d-sm-table-cell">{{ s.dateLimiteInscription | date("d/m/Y") }}</td>
+
+                    <td class="d-none d-sm-table-cell"> {{ s.participants | length }} / {{ s.nbInscriptionsMax }}</td>
+
+                    <td class="d-none d-sm-table-cell">{{ s.etat }}</td>
+                    {% set participe = "non" %}
+                    {% for u in app.user.inscriptions %}
+                        {% if u.id == s.id %}
+                            {% set participe = "oui" %}
+                        {% endif %}
+                    {% endfor %}
+                    <td class="d-none d-sm-table-cell">{{ participe}} </td>
+                    <td class="d-none d-sm-table-cell"> <a href="{{path('main_profil',{'id': s.organisateur.id})}}">{{ s.organisateur.pseudo }}</a></td>
+
+                    <td class="d-none d-sm-table-cell">
+                        {% if s.etat.id == 1 or s.etat.id == 2 or s.etat.id == 3%}
+                            {# l'organisateur peut annuler ou modifier la sortie tant qu'elle n'a pas commencée #}
+                            {% if s.organisateur.pseudo == app.user.pseudo %}
+                                <a href="{{ path('nouvelle_sortie', {'id': s.id}) }}">Modifier</a> -
+                                <a href="{{ path('supprimer_sortie',{'id': s.id}) }}"
+                                   onclick="confirmer(this.href, 'annuler'); return false;">
+                                    Annuler
+                                </a>
+                                -
+                            {% else %}
+                                <a href="{{ path('nouvelle_sortie', {'id': s.id}) }}">Afficher</a> -
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('nouvelle_sortie', {'id': s.id}) }}">Afficher</a> -
+                        {% endif %}
+                        {# l'organisteur peut publier la sortie sans passer par modifier #}
+                        {% if s.etat.id == 1 and s.organisateur.pseudo == app.user.pseudo %}
+                            <a href="{{ path('publier_sortie', {'id': s.id}) }}"> Publier </a>
+                        {% endif %}
+                        {# si l'utilisateur connecté n'est pas l'organisateur et que la sortie est ouverte il peut s'inscrire ou se désister #}
+                        {% if s.etat.id == 2 and s.organisateur.pseudo != app.user.pseudo %}
+                            {% set i = 0 %}
+                            {% for u in app.user.inscriptions %}
+                                {% if u.id == s.id %}
+                                    <a href="{{ path('desister_sortie', {'id': s.id}) }}"> Se désister </a>
+                                    {% set i = 1 %}
+                                {% endif %}
+                            {% endfor %}
+                            {# Pour s'inscire il doit rester de la place #}
+                            {# i==0 sert à s'assurer qu'il n'est pas déjà inscrit dans cette sortie en particulier #}
+                            {% if i == 0 and s.participants | length < s.nbInscriptionsMax %}
+                                <a href="{{ path('inscription_sortie', {'id': s.id}) }}"> S'inscrire </a>
+                            {% endif %}
+                        {% endif %}
+                    </td>
+                    <td class="d-sm-none">
+                        {{ s.lieu.ville.nom | upper }}
+                    </td>
+
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+</div>
+<br>
+<a type="button" class="d-none d-sm-inline btn btn-lg btn-success" href="{{ path('nouvelle_sortie') }}">Créer une sortie</a>
+
+<script src="{{ asset('js/ConfirmerAction.js') }}"></script>

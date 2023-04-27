@@ -1,0 +1,72 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1 style="text-align: center">Gestion des campus</h1>
+
+    <h2>Filtrer : </h2>
+
+    {{ form_start(SearchForm) }}
+    {{ form_widget(SearchForm.q,{ 'attr': {'class': 'formFilterInline'} }) }}
+    <button class="btn btn-lg btn-success" type="submit">Go</button>
+    {{ form_end(SearchForm, {'render_rest': false}) }}
+    <table id="tableScroll" class="table table-responsive table-striped table-hover" style="display: grid; height:50rem;overflow-y: scroll">
+        <tr>
+            <th>
+                Campus
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+        {% if id is not defined %}
+            <tr>
+                <td class="col-md-5">
+                    {{ form_start(CampusForm) }}
+                    {{ form_widget(CampusForm.nom) }}
+                </td>
+                <td class="col-md-5">
+                    <button type="submit">Ajouter</button>
+                    {{ form_end(CampusForm) }}
+                </td>
+            </tr>
+        {% endif %}
+
+        {% for c in campus %}
+            <div>
+                <tr>
+                    <td class="col-md-5">
+
+                        {% if id is not defined %}
+                            {{ c.nom }}
+
+                        {% elseif (id == c.id) %}
+                            {{ form_start(CampusForm) }}
+                            {{ form_widget(CampusForm.nom) }}
+
+                            <button type="submit">Ok</button>
+                            {{ form_end(CampusForm) }}
+                        {% else %}
+                            {{ c.nom }}
+
+                        {% endif %}</td>
+
+                    <td><a href="{{ path('admin_modify_campus',{'id': c.id}) }}">Modifier</a>
+                        <span> - </span>
+                        <a href="{{ path('admin_delete_campus',{'id': c.id}) }}"
+                           onclick="confirmer(this.href, 'supprimer'); return false;">
+                            Supprimer
+                        </a>
+                    </td>
+                </tr>
+            </div>
+        {% endfor %}
+    </table>
+    <script src="{{ asset('js/table_Scroll_Position.js') }}"></script>
+    <script src="{{ asset('js/ConfirmerAction.js') }}"></script>
+
+{% endblock %}
+
+{% block title %}
+    Page des campus | {{ parent() }}
+{% endblock %}

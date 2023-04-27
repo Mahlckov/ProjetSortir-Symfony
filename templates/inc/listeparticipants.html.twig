@@ -1,0 +1,27 @@
+<h4>Liste des participants :</h4>
+<div class="table-responsive table-list-participant">
+    <table class="table table-striped">
+        <tr>
+            <th>
+                Pseudo
+            </th>
+            <th>
+                Nom
+            </th>
+        </tr>
+        {% for p in sortie.participants %}
+            {% for i in p.inscriptions %}
+                {% if i.id == sortie.id %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('main_profil', {'id': p.id}) }}">{{ p.pseudo }}</a>
+                        </td>
+                        <td>
+                            <a href="{{ path('main_profil', {'id': p.id}) }}">{{ p.nom }}</a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </table>
+</div>

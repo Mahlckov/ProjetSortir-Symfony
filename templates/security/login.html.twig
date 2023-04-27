@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<form method="post">
+    {% if app.flashes('disabled_user_error') %}
+        <div class="flash flash-disabled_user_error">{{ app.flashes('disabled_user_error')[0] }}</div>
+    {% elseif app.flashes('authentication_error') %}
+        <div class="flash flash-authentication_error">{{ app.flashes('authentication_error')[0] }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <div class="container-login">
+        <h1 class="h3 mb-3 font-weight-normal">Veuillez vous authentifier</h1>
+        <label for="inputEmailOuPseudo">Identifiant : </label>
+        <input type="text" value="{{ last_username }}" name="emailOuPseudo" id="inputEmailOuPseudo" class="form-control" required autofocus>
+        <label for="inputPassword">Mot de passe : </label>
+        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+
+        <input type="hidden" name="_csrf_token"
+               value="{{ csrf_token('authenticate') }}"
+        >
+            <div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" name="_remember_me"> Se souvenir de moi
+                </label>
+            </div>
+
+        <button class="btn btn-lg btn-primary" type="submit">
+            Sign in
+        </button>
+    </div>
+</form>
+    <div>
+        <a href="{{path('app_forgot_password_request')}}" title="réinitialisation de mot de passe"> Mot de passe oublié?</a>
+    </div>
+{% endblock %}

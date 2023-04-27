@@ -1,0 +1,242 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ parent() }} |
+    {% if modifier != 1 %}Nouvelle sortie
+        {% elseif afficher == 1 %}Sortie details
+        {% else %}Modifier la sortie
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="d-none d-sm-block">
+        {% if modifier != 1 %}
+            <h1 class="center">Créer une sortie</h1>
+        {% elseif afficher == 1%}
+            <h1 class="center">Sortie {% if sortie.etat.id == 6 %} <b>ANNULEE</b> {% endif %}: {{ sortie.nom }}</h1>
+        {% else %}
+            <h1 class="center">Modifier une sortie</h1>
+        {% endif %}
+    </div>
+        {{ form_start(sortieForm) }}
+        <div class="row">
+            <div class="d-sm-none" id="colFormNew">
+                {% if afficher == 1 or modifier == 1 %}
+                <div>
+                    <span>Nom :</span>
+                    <span>{{ sortie.nom }}</span>
+                </div>
+                <div>
+                    <span>Date et heure :</span>
+                    <span>{{ sortie.dateHeureDebut | date("d/m/y H:i")}}</span>
+                </div>
+                <div>
+                    <span>Ville :</span>
+                    <span>{{ sortie.lieu.ville.nom }}</span>
+                </div>
+                <div>
+                    <span>Lieu :</span>
+                    <span>{{ sortie.lieu.nom }}</span>
+                </div>
+                <div>
+                    <span>Rue :</span>
+                    <span>{{ sortie.lieu.rue }}</span>
+                </div>
+                <div>
+                    <span>Code Postal :</span>
+                    <span>{{ sortie.lieu.ville.codePostal }}</span>
+                </div>
+                <div>
+                    <span>Latitude :</span>
+                    <span>{{ sortie.lieu.latitude }}</span>
+                </div>
+                <div>
+                    <span>Longitude :</span>
+                    <span>{{ sortie.lieu.longitude }}</span>
+                </div>
+                <div>
+                    <span>Clotûre :</span>
+                    <span>{{ sortie.dateLimiteInscription | date("d/m/y") }}</span>
+                </div>
+                <div>
+                    <span>Nombre de places :</span>
+                    <span>{{ sortie.nbInscriptionsMax }}</span>
+                </div>
+                <div>
+                    <span>Durée :</span>
+                    <span>{{ sortie.duree }}</span>
+                </div>
+                <div>
+                    <span>Description et infos :</span>
+                    <span>{{ sortie.infosSortie }}</span>
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="d-none d-sm-block col-xs-6 col-lg-4 offset-lg-2" id="colFormNew">
+                <div>
+                    {{ form_label(sortieForm.nom) }}
+                    {% if afficher == 1 %}
+                    {{ sortie.nom }}
+                    {% else %}
+                    {{ form_widget(sortieForm.nom) }}
+                    {% endif %}
+                </div>
+
+                {{ form_errors(sortieForm.nom) }}
+                <div>
+                    {{ form_label(sortieForm.dateHeureDebut) }}
+                    {% if afficher == 1 %}
+                    {{ sortie.dateHeureDebut | date("d/m/y H:i")}}
+                    {% else %}
+                    {{ form_widget(sortieForm.dateHeureDebut) }}
+                    {% endif %}
+                </div>
+
+                {{ form_errors(sortieForm.dateHeureDebut) }}
+                <div>
+                    {{ form_label(sortieForm.dateLimiteInscription) }}
+                    {% if afficher == 1 %}
+                    {{ sortie.dateLimiteInscription | date("d/m/y") }}
+                    {% else %}
+                    {{ form_widget(sortieForm.dateLimiteInscription) }}
+                    {% endif %}
+                </div>
+                {{ form_errors(sortieForm.dateLimiteInscription) }}
+                <div>
+                    {{ form_label(sortieForm.nbInscriptionsMax) }}
+                    {% if afficher == 1 %}
+                    {{ sortie.nbInscriptionsMax }}
+                    {% else %}
+                    {{ form_widget(sortieForm.nbInscriptionsMax) }}
+                    {% endif %}
+                </div>
+                {{ form_errors(sortieForm.nbInscriptionsMax) }}
+                <div>
+                    {{ form_label(sortieForm.duree) }}
+                    {% if afficher == 1 %}
+                    {{ sortie.duree }} minutes
+                    {% else %}
+                    {{ form_widget(sortieForm.duree) }}
+                    {% endif %}
+                </div>
+                {{ form_errors(sortieForm.duree) }}
+                <div>
+                    {% if afficher == 1 %}
+                        {% if sortie.etat.id == 6 %}
+                            <span><b>Motif d'annulation </b>:</span>
+                        {% else %}
+                            {{ form_label(sortieForm.infosSortie) }}
+                        {% endif %}
+                    {% else %}
+                        {{ form_label(sortieForm.infosSortie) }}
+                    {% endif %}
+                    {% if afficher == 1 %}
+                    {{ sortie.infosSortie }}
+                    {% else %}
+                    {{ form_widget(sortieForm.infosSortie) }}
+                    {% endif %}
+                </div>
+                {{ form_errors(sortieForm.infosSortie) }}
+            </div>
+            <div class="d-none d-sm-block col-xs-6 col-lg-4" id="colFormNew">
+                <div>
+                    <span>Campus :</span>
+                    <span>{{ sortie.campus.nom }}</span>
+                </div>
+                <div>
+                    <label for="ville">Ville :</label>
+                    {% if afficher == 1 %}
+                        {{ sortie.lieu.ville.nom }}
+                    {% else %}
+                    <div>
+                        <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#VilleModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                        </button>
+                        <select id="ville" name="ville" class="form-select"></select>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div>
+                    {{ form_label(sortieForm.lieu) }}
+                    {% if afficher == 1 %}
+                    {{ sortie.lieu.nom }}
+                    {% else %}
+                    <div>
+                        <button class="btn" type="button" data-bs-toggle="modal" data-bs-target="#LieuModal">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                                <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                            </svg>
+                        </button>
+                        {{ form_widget(sortieForm.lieu) }}
+                    </div>
+                    {% endif %}
+                </div>
+                {{ form_errors(sortieForm.lieu) }}
+                <div>
+                    <span>Rue :</span>
+                    <span id="rue">{% if afficher == 1 %}{{ sortie.lieu.rue }}{% endif %}</span>
+                </div>
+                <div>
+                    <span>Code postal :</span>
+                    <span id="codePostal">{% if afficher == 1 %}{{ sortie.lieu.ville.codePostal }}{% endif %}</span>
+                </div>
+                <div>
+                    <span>Latitude :</span>
+                    <span id="latitude">{% if afficher == 1 %}{{ sortie.lieu.latitude }}{% endif %}</span>
+                </div>
+                <div>
+                    <span>Longitude :</span>
+                    <span id="longitude">{% if afficher == 1 %}{{ sortie.lieu.longitude }}{% endif %}</span>
+                </div>
+            </div>
+        </div>
+        <div id="btnNewSortie" class="d-none d-sm-block">
+            {% if afficher != 1 %}
+            {{ form_widget(sortieForm.enregistrer) }}
+            {{ form_widget(sortieForm.publier) }}
+                {% if modifier == 1 %}
+                    <a href="{{ path('supprimer_sortie', {'id': sortie.id}) }}">
+                        <button class="btn btn-lg btn-danger" type="submit"
+                                onclick="confirmer(this.href, 'supprimer')">
+                            Supprimer
+                        </button>
+                    </a>
+                {% endif %}
+            {% elseif is_granted('ROLE_ADMIN') %}
+                {% if sortie.etat.id == 1 or sortie.etat.id == 2 or sortie.etat.id == 3 %}
+                    <a href="{{ path('supprimer_sortie', {'id': sortie.id}) }}">
+                        <button class="btn btn-lg btn-danger" type="submit"
+                                onclick="confirmer(this.href, 'supprimer')">
+                            Supprimer
+                        </button>
+                    </a>
+                {% endif %}
+            {% endif %}
+            <a type="button" class="btn btn-lg btn-success" href="{{ path('main_home') }}" onclick="suppSS()">{% if afficher == 1 %}Retour{% else %}Annuler{% endif %}</a>
+        </div>
+
+    {% if afficher != 1 %}
+        {{ form_end(sortieForm) }}
+
+        {% include 'inc/modalLieu.html.twig'%}
+        <div class="d-sm-none">
+            {% include 'inc/listeparticipants.html.twig'%}
+        </div>
+
+    {% else %}
+       {% include 'inc/listeparticipants.html.twig'%}
+
+    {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{parent()}}
+    {% if afficher != 1 %}
+        <script src="{{ asset('js/affichageVillesLieux.js') }}"></script>
+        <script src="{{ asset('js/ConfirmerAction.js') }}"></script>
+    {% endif %}
+{% endblock %}

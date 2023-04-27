@@ -1,0 +1,70 @@
+<div class="modal fade" role="dialog" tabindex="-1" id="LieuModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ajouter un lieu</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="colFormNew">
+                {{ form_start(lieuForm) }}
+                <div>
+                    {{ form_label(lieuForm.ville) }}
+                    {{ form_widget(lieuForm.ville) }}
+                    {{ form_errors(lieuForm.ville) }}
+                </div>
+                <div>
+                    {{ form_label(lieuForm.nom) }}
+                    {{ form_widget(lieuForm.nom) }}
+                    {{ form_errors(lieuForm.nom) }}
+                </div>
+                <div>
+                    {{ form_label(lieuForm.rue) }}
+                    {{ form_widget(lieuForm.rue) }}
+                    {{ form_errors(lieuForm.rue) }}
+                </div>
+                <div>
+                    {{ form_label(lieuForm.latitude) }}
+                    {{ form_widget(lieuForm.latitude) }}
+                    {{ form_errors(lieuForm.latitude) }}
+                </div>
+                <div>
+                    {{ form_label(lieuForm.longitude) }}
+                    {{ form_widget(lieuForm.longitude) }}
+                    {{ form_errors(lieuForm.longitude) }}
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                {{ form_widget(lieuForm.valider) }}
+            </div>
+            {{ form_end(lieuForm) }}
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" role="dialog" tabindex="-1" id="VilleModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Ajouter une ville</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="colFormNew">
+                {{ form_start(villeForm) }}
+                <div>
+                    {{ form_label(villeForm.nom) }}
+                    {{ form_widget(villeForm.nom) }}
+                    {{ form_errors(villeForm.nom) }}
+                </div>
+                <div>
+                    {{ form_label(villeForm.codePostal) }}
+                    {{ form_widget(villeForm.codePostal) }}
+                    {{ form_errors(villeForm.codePostal) }}
+                </div>
+            </div>
+            <div class="modal-footer"><button class="btn btn-light" type="button" data-bs-dismiss="modal">Close</button>
+                {{ form_widget(villeForm.valider) }}
+            </div>
+            {{ form_end(villeForm) }}
+        </div>
+    </div>
+</div>

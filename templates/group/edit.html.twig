@@ -1,0 +1,37 @@
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Groupes | {{ parent() }}
+{% endblock %}
+{% block body %}
+<h1>Modifier un groupe privé</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+
+<h2>Participants:</h2>
+<ul>
+    {% for participant in form.participants %}
+
+            {{ form_widget(participant) }}
+            {{ form_label(participant) }}
+
+    {% endfor %}
+</ul>
+
+    {{ form_widget(form) }}
+    <a  href="{{ path('group_edit', {'id': group.id}) }}">
+        <button class="btn btn-lg btn-warning" type="submit">Modifier</button>
+    </a>
+
+
+{{ form_end(form) }}
+    <a href="{{ path('app_list_groups') }}">
+        <button class="btn btn-lg btn-primary">Annuler</button>
+    </a>
+
+
+{% endblock %}
+
+

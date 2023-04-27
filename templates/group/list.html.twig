@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <h1>Mes groupes privés</h1>
+
+        {#  {% for group in groups %}
+          <li><a href="{{ path('app_view_group', {'id': group.id}) }}">{{ group.name }}</a></li>
+        {% endfor %}#}
+
+
+
+    <table class="table table-hover table-responsive table-striped text-center">
+        <thead>
+        <tr>
+            <th>Nom du Groupe</th>
+            <th>Participants</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for group in groups %}
+            <tr>
+                <td>{{ group.name }}</td>
+                <td>
+                    {% for participant in group.participants %}
+                        {{ participant.nom }}
+                        {% if not loop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{{ path('group_edit', {'id': group.id}) }}">Modifier</a> -
+                    <a href="{{ path('group_delete', {'id': group.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Aucun groupe trouvé</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ path('app_create_group') }}">
+        <button class="btn btn-lg btn-success">Créer un nouveau groupe privé</button>
+    </a>
+{% endblock %}
+

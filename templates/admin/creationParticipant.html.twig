@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Création | {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center"> Création d'un nouveau participant </h1>
+    <div class="d-flex justify-content-center flex-wrap align-items-stretch">
+        <div class="col-lg-6 ">
+            <div class="card card-body bg-light">
+                <h3 class="text-center"> Création d'un nouveau participant manuellement </h3>
+                {{ form_start(creationForm, {'attr': {'class': 'mx-auto'}}) }}
+
+                {% if form_errors(creationForm)|length > 0 %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(creationForm) }}
+                    </div>
+                {% endif %}
+
+                {{ form_row(creationForm.pseudo) }}
+                {{ form_row(creationForm.prenom) }}
+                {{ form_row(creationForm.nom) }}
+                {{ form_row(creationForm.telephone) }}
+                {{ form_row(creationForm.email) }}
+                {{ form_row(creationForm.campus) }}
+                {{ form_row(creationForm.plainPassword) }}
+
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-success btn-lg">Créer</button>
+                </div>
+                {{ form_end(creationForm) }}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-body bg-light">
+                <h3 class="text-center">Création de participants à partir d'un fichier</h3>
+
+                {{ form_start(creationFormCSV, {'attr': {'class': 'mx-auto'}}) }}
+
+                {% if form_errors(creationFormCSV)|length > 0 %}
+                    <div class="alert alert-danger">
+                        {{ form_errors(creationFormCSV) }}
+                    </div>
+                {% endif %}
+
+                {{ form_widget(creationFormCSV) }}
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-lg">Créer à partir du fichier CSV</button>
+                </div>
+                {{ form_end(creationFormCSV) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
